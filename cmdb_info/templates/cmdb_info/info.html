@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<div>
+    {% if page_type == 'pc' %}
+    <title>电脑资产列表</title>
+    {% elif page_type == 'server' %}
+    <title>服务器资产列表</title>
+    {% elif page_type == 'network' %}
+    <title>网络设备资产列表</title>
+    {% else %}
+    <title>翼卡CMDB</title>
+    {% endif %}
+    <script src="/static/js/jquery-1.11.1.min.js"></script>
+    <script src="/static/js/jquery.dataTables.min.js"></script>
+    <link href="/static/css/jquery.dataTables.min.css" media="screen" rel="stylesheet"/>
+    <style>
+        body {
+            color: #555;
+            font: 12px/18px Helvetica, Arial, Verdana, "Microsoft yahei", sans-serif;
+            margin: 0;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .table-content {
+            width: 80%;
+            margin: 0 auto;
+        }
+
+        th {
+            text-align: left;
+        }
+    </style>
+    {% endblock head %}
+
+    {% block content %}
+    <div class="table-content">
+        <br><h4><a href="{% url 'file:file'  page_type %}">通过CSV文件导入</a>/<a href="{% url 'file:export' page_type %}">导出</a></h4><br/>
+        <table>
+            <thead>
+            <th>序列号</th>
+            <th>资产编号</th>
+            <th>IP</th>
+            <th>责任人</th>
+            <th>位置</th>
+            <th>购买日期</th>
+            <th>变动日期</th>
+            <th>设备状态</th>
+            {% if user.is_authenticated %}
+            <th>详细</th>
+            <th>操作</th>
+            {% endif %}
+            </thead>
+            <tbody>
+            {% for device in devices %}
+            <tr>
+                <td>{{ device.sn }}</td>
+                <td>{{ device.ecar_no }}</td>
+                <td>{{ device.ip }}</td>
+                <td>{{ device.user }}</td>
+                <td>{{ device.location }}</td>
+                <td>{{ device.create_date }}</td>
+                <td>{{ device.modi_time }}</td>
+                <td>{{ device.status }}</td>
+                {% if user.is_authenticated %}
+                <td><a href="{% url 'cmdb_info:detail' page_type device.pk %}">查看</a></td>
+                {% if device.status == '已报废' %}
+                {% if device.old_status %}
+                <td>请登录后台删除/<a href="{% url 'cmdb_info:callback' page_type device.pk %}">撤回</a></td>
+                {% else %}
+                <td>请登录后台删除</td>
+                {% endif %}
+                {% else %}
+                <td>
+                    <button type="button"
+                    "><a href="{% url 'cmdb_info:scrap' page_type device.pk %}">报废</a></button></td>
+                {% endif %}
+                {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script type="text/javascript">
+        $(function () {
+            $(document).ready(function () {
+                $("table").DataTable({
+                    "paging": false,
+                    "bProcessing": true,
+                    "language": {
+                        "url": "/static/js/Chinese.json"
+
+                    }
+                });
+            });
+        })
+    </script>
+    <script>
+
+        var trs = document.getElementsByTagName('tr');
+        for (var i = 1; i < trs.length; i++) {
+            trs[i].onmouseover = function () {
+                this.style.backgroundColor = '#ddd';
+                this.style.color = "blue";
+                //this.style.fontSize='14px';
+            };
+            trs[i].onmouseout = function () {
+                this.style.backgroundColor = '';
+                this.style.color = "";
+                this.style.fontSize = ""
+            }
+        }
+
+
+    </script>
+</div>
+{% endblock content %}
+
+

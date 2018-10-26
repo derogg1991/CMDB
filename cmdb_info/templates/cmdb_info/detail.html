@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>detail</title>
+<style>
+    body {
+        color: #555;
+        font: 12px/18px Helvetica, Arial, Verdana, "Microsoft yahei", sans-serif;
+        margin: 0;
+    }
+</style>
+{% endblock head %}
+
+{% block content %}
+<table class="table table-bordered table-hover">
+    <caption><h1>资产详情</h1></caption>
+    {% if page_type == 'pc' %}
+    <tr>
+        <td>品牌型号:</td>
+        <td>{{ device.producter }}</td>
+    </tr>
+    <tr>
+        <td>设备类型:</td>
+        <td>{{ device.type }}</td>
+    </tr>
+    <tr>
+        <td>CPU:</td>
+        <td>{{ device.cpu }}</td>
+    </tr>
+    <tr>
+        <td>内存:</td>
+        <td>{{ device.mem }}</td>
+    </tr>
+    <tr>
+        <td>硬盘:</td>
+        <td>{{ device.disk }}</td>
+    </tr>
+    </tr>
+    <tr>
+        <td>备注/维修更改记录:</td>
+        <td>{{ device.remark }}</td>
+    </tr>
+    {% elif page_type == 'server' %}
+    <tr>
+        <td>品牌型号:</td>
+        <td>{{ device.producter }}</td>
+    </tr>
+    <tr>
+        <td>设备类型:</td>
+        <td>{{ device.type }}</td>
+    </tr>
+    <tr>
+        <td>CPU核心数:</td>
+        <td>{{ device.cpu_core }}</td>
+    </tr>
+    <tr>
+        <td>CPU线程数:</td>
+        <td>{{ device.cpu_thread }}</td>
+    </tr>
+    <tr>
+        <td>CPU个数:</td>
+        <td>{{ device.cpu_no }}</td>
+    </tr>
+    <tr>
+        <td>内存:</td>
+        <td>{{ device.mem }}</td>
+    </tr>
+    <tr>
+        <td>硬盘:</td>
+        <td>{{ device.disk }}</td>
+    </tr>
+    <tr>
+        <td>所属环境:</td>
+        <td>{{ device.env }}</td>
+    </tr>
+    </tr>
+    <tr>
+        <td>备注/涉及项目:</td>
+        <td>{{ device.remark }}</td>
+    </tr>
+    {% elif page_type == 'network' %}
+    <tr>
+        <td>品牌型号:</td>
+        <td>{{ device.producter }}</td>
+    </tr>
+    <tr>
+        <td>设备类型:</td>
+        <td>{{ device.type }}</td>
+    </tr>
+    <tr>
+        <td>端口数:</td>
+        <td>{{ device.port }}</td>
+    </tr>
+    <tr>
+        <td>备注:</td>
+        <td>{{ device.remark }}</td>
+    </tr>
+    {% endif %}
+</table>
+{% endblock content %}

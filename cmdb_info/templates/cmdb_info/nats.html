@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<div>
+    <title>NAT映射列表</title>
+    <script src="/static/js/jquery-1.11.1.min.js"></script>
+    <script src="/static/js/jquery.dataTables.min.js"></script>
+    <link href="/static/css/jquery.dataTables.min.css" media="screen" rel="stylesheet"/>
+    <style>
+        body {
+            color: #555;
+            font: 12px/18px Helvetica, Arial, Verdana, "Microsoft yahei", sans-serif;
+            margin: 0;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .table-content {
+            width: 80%;
+            margin: 0 auto;
+        }
+
+        th {
+            text-align: left;
+        }
+    </style>
+    {% endblock head %}
+
+    {% block content %}
+    <div class="table-content">
+        {% for ip in ips %}
+        <table>
+            <caption><h1>{{ ip }}</h1></caption>
+            <thead>
+            <th>外网端口</th>
+            <th>内网IP</th>
+            <th>内网端口</th>
+            <th>域名</th>
+            <th>责任人</th>
+            <th>备注</th>
+            </thead>
+            <tbody>
+            {% for nat in ip.nat_info_set.all %}
+            <tr>
+                <td>{{ nat.out_port }}</td>
+                <td>{{ nat.intranet_ip }}</td>
+                <td>{{ nat.in_port }}</td>
+                <td>{{ nat.domain }}</td>
+                <td>{{ nat.user }}</td>
+                <td>{{ nat.remark }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% endfor %}
+    </div>
+
+    <script type="text/javascript">
+        $(function () {
+            $(document).ready(function () {
+                $("table").DataTable({
+                    "paging": false,
+                    "bProcessing": true,
+                    "language": {
+                        "url": "/static/js/Chinese.json"
+
+                    }
+                });
+            });
+        })
+    </script>
+    <script>
+        var trs = document.getElementsByTagName('tr');
+        for (var i = 1; i < trs.length; i++) {
+            trs[i].onmouseover = function () {
+                this.style.backgroundColor = '#ddd';
+                this.style.color = "blue";
+                //this.style.fontSize='14px';
+            };
+            trs[i].onmouseout = function () {
+                this.style.backgroundColor = '';
+                this.style.color = "";
+                this.style.fontSize = ""
+            }
+        }
+
+
+    </script>
+</div>
+{% endblock content %}
+
+
+

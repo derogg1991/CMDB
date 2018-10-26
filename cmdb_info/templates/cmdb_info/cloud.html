@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+{% block head %}
+<title>腾讯云服务器资产列表</title>
+<script src="/static/js/jquery-1.11.1.min.js"></script>
+<script src="/static/js/jquery.dataTables.min.js"></script>
+<link href="/static/css/jquery.dataTables.min.css" media="screen" rel="stylesheet"/>
+<style>
+    body {
+        color: #555;
+        font: 12px/18px Helvetica, Arial, Verdana, "Microsoft yahei", sans-serif;
+        margin: 0;
+    }
+
+    h1 {
+        text-align: center;
+        margin-top: 30px;
+    }
+
+    .table-content {
+        width: 80%;
+        margin: 0 auto;
+    }
+
+    th {
+        text-align: left;
+    }
+</style>
+{% endblock head %}
+{% block content %}
+<div class="table-content">
+    <br/>
+    <table>
+        <thead>
+        <th>名称</th>
+        <th>实例id</th>
+        <th>区域</th>
+        <th>状态</th>
+        <th>内网ip</th>
+        <th>公网ip</th>
+        <th>带宽</th>
+        <th>cpu</th>
+        <th>内存</th>
+        <th>系统盘</th>
+        <th>数据盘</th>
+        <th>OS</th>
+        <th>到期时间</th>
+
+        </thead>
+        <tbody>
+
+        {% for server in servers %}
+        <tr>
+            <td>{{ server.InstanceName }}</td>
+            <td>{{ server.InstanceId }}</td>
+            <td>{{ server.Placement.Zone }}</td>
+            <td>{{ server.InstanceState }}</td>
+            <td>{{ server.PrivateIpAddresses.0 }}</td>
+            <td>{{ server.PublicIpAddresses.0 }}</td>
+            <td>{{ server.InternetAccessible.InternetMaxBandwidthOut }}M</td>
+            <td>{{ server.CPU }}</td>
+            <td>{{ server.Memory }}G</td>
+            <td>{{ server.SystemDisk.DiskSize }}G</td>
+            <td>{{ server.DataDisks.0.DiskSize }}G</td>
+            <td>{{ server.OsName }}</td>
+            <td>{{ server.ExpiredTime }}</td>
+        </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $(document).ready(function () {
+            $("table").DataTable({
+                "paging": false,
+                "bProcessing": true,
+                "language": {
+                    "url": "/static/js/Chinese.json"
+
+                }
+            });
+        });
+    })
+</script>
+<script>
+
+    var trs = document.getElementsByTagName('tr');
+    for (var i = 1; i < trs.length; i++) {
+        trs[i].onmouseover = function () {
+            this.style.backgroundColor = '#ddd';
+            this.style.color = "blue";
+            //this.style.fontSize='14px';
+        };
+        trs[i].onmouseout = function () {
+            this.style.backgroundColor = '';
+            this.style.color = "";
+            this.style.fontSize = ""
+        }
+    }
+
+
+</script>
+{% endblock content %}
+
+

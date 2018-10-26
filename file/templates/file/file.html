@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <style>
+        body {
+            color: #555;
+            font: 12px/18px Helvetica, Arial, Verdana, "Microsoft yahei", sans-serif;
+            margin: 0;
+        }
+        </style>
+{% endblock head %}
+{% block content %}
+<h3>导入CSV表格</h3>
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="确定"/>
+</form>
+<h3><a href="{% url 'file:down_template' page_type %}">下载模板</a></h3>
+{% endblock content %}

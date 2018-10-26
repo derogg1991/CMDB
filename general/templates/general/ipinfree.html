@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>空闲IP</title>
+<style>
+
+    body {
+        color: #555;
+        font: 12px/18px Helvetica, Arial, Verdana, "Microsoft yahei", sans-serif;
+        margin: 0;
+    }
+</style>
+
+{% endblock head %}
+
+{% block content %}
+{% for net in nets %}
+<table class="table table-bordered table-hover">
+    <caption><h1>{{ net.ip }}网段(前十)</h1>剩余IP:{{ net.produce_free_ip.0 }}</caption>
+    <tr>
+        {% for ip in net.produce_free_ip.1 %}
+        <td>{{ ip }}</td>
+        {% endfor %}
+    </tr>
+</table>
+{% endfor %}
+{% endblock content %}

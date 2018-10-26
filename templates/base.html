@@ -1,0 +1,52 @@
+{% load bootstrap3 %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    {% block head%}
+    {% endblock head%}
+</head>
+<body>
+<nav class="navbar navbar-default navbar-static-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">翼卡CMDB</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="{% url 'general:ipinfree' %}">空闲IP查询</a></li>
+                <li><a href="{% url 'cmdb_info:pc_info' %}">电脑信息清单</a></li>
+                <li><a href="{% url 'cmdb_info:server_info' %}">服务器信息清单</a></li>
+                <li><a href="{% url 'cmdb_info:network_info' %}">网络设备信息清单</a></li>
+                <li><a href="{% url 'cmdb_info:cloud' %}">腾讯云主机列表</a></li>
+                <li><a href="{% url 'cmdb_info:nat' %}">NAT映射列表</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                {% if user.is_authenticated %}
+                <li class="active"><a href="#">您好!, {{ user.username }}</a></li>
+                <li><a href="{% url 'cmdb_info:to_admin' %}">管理后台</a></li>
+                <li><a href="{% url 'users:logout' %}">注销</a></li>
+                {% else %}
+                <li><a href="{% url 'users:login' %}">登录</a></li>
+                {% endif %}
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</nav>
+{% block content%}
+{% endblock content %}
+{% block footer %}
+{% endblock footer %}
+</body>
+</html>

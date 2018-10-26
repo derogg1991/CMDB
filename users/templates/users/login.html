@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load bootstrap3 %}
+{% block content %}
+{% if form.errors %}
+<p>用户名密码错误.</p>
+{% endif %}
+<div style="position: absolute; left: 50%; margin-left: -100px">
+<form method="post" action="{% url 'users:login' %}" class="form-row">
+    <div>
+        {% csrf_token %}
+        {% bootstrap_form form %}
+    </div>
+    <div style="position: absolute; left: 50%; margin-left: -35px">
+    {% buttons %}
+    <button name="submit" class="btn btn-primary">登录</button>
+    {% endbuttons %}
+    </div>
+</form>
+</div>
+{% endblock content %}
